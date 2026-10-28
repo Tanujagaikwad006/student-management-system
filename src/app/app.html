@@ -1,71 +1,104 @@
+<h1>Student Management System</h1>
 
-<div class="page">
-  <h1>Student Management System</h1>
+<p>Manage student records and academic performance.</p>
 
-  <p>Manage student records and academic performance.</p>
+<div class="summary">
+  <p>
+    <strong>Total Students</strong>
+    {{ totalStudents }}
+  </p>
 
-  <div class="summary">
-    <div>Total Students{{ totalStudents }}</div>
-    <div>Class Average {{ averageMarks }}</div>
-  </div>
+  <p>
+    <strong>Class Average</strong>
+    {{ classAverage }}
+  </p>
+</div>
 
-  <h2>Add a Student</h2>
+<h2>Add a Student</h2>
 
-  <form class="student-form" (ngSubmit)="addStudent()">
-    <input
-      type="text"
-      name="studentName"
-      [(ngModel)]="studentName"
-      placeholder="Student name"
-      required
-    />
-
-    <input
-      type="number"
-      name="marks"
-      [(ngModel)]="marks"
-      placeholder="Marks (0-100)"
-      min="0"
-      max="100"
-      required
-    />
-
-    <button type="submit">Add Student</button>
-  </form>
-
-  <h2>Student Records</h2>
-
+<form (ngSubmit)="addStudent()">
   <input
-    class="search"
     type="text"
-    [(ngModel)]="searchText"
-    name="searchText"
-    placeholder="Search by student name"
+    name="studentName"
+    placeholder="Student name"
+    [(ngModel)]="studentName"
+    required
   />
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Marks</th>
-        <th>Result</th>
-        <th>Action</th>
-      </tr>
-    </thead>
+  <input
+    type="number"
+    name="studentMarks"
+    placeholder="Marks (0-100)"
+    [(ngModel)]="studentMarks"
+    min="0"
+    max="100"
+    step="0.5"
+    required
+  />
 
-    <tbody>
-      <tr *ngFor="let student of filteredStudents">
+  <button type="submit">
+    {{ editingId !== null ? 'Update Student' : 'Add Student' }}
+  </button>
+
+  @if (editingId !== null) {
+    <button type="button" (click)="cancelEdit()">
+      Cancel
+    </button>
+  }
+</form>
+
+<h2>Student Records</h2>
+
+<input
+  class="search-input"
+  type="text"
+  name="searchText"
+  placeholder="Search by student name"
+  [(ngModel)]="searchText"
+/>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Marks</th>
+      <th>Result</th>
+      <th>Grade</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (student of filteredStudents; track student.id) {
+      <tr>
         <td>{{ student.id }}</td>
         <td>{{ student.name }}</td>
         <td>{{ student.marks }}</td>
-        <td>{{ student.marks >= 40 ? 'Pass' : 'Fail' }}</td>
-        <td>
-          <button type="button" (click)="deleteStudent(student.id)">
+        <td>{{ getResult(student.marks) }}</td>
+        <td>{{ getGrade(student.marks) }}</td>
+        <td class="actions">
+          <button
+            type="button"
+            class="delete-button"
+            (click)="deleteStudent(student.id)"
+          >
             Delete
+          </button>
+
+          <button
+            type="button"
+            class="edit-button"
+            (click)="editStudent(student)"
+          >
+            ✎ Edit
           </button>
         </td>
       </tr>
-    </tbody>
-  </table>
-</div>
+    } @empty {
+      <tr>
+        <td colspan="6">No students found.</td>
+      </tr>
+    }
+  </tbody>
+</table>

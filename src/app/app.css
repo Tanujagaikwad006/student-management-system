@@ -1,106 +1,140 @@
-
 :host {
   display: block;
+  padding: 20px;
   min-height: 100vh;
-  background: white;
-  color: black;
+  box-sizing: border-box;
+  background: #fff;
+  color: #000;
   font-family: "Times New Roman", serif;
 }
 
-.page {
-  padding: 8px;
-}
-
 h1 {
-  font-size: 32px;
-  margin: 0.67em 0;
-}
-
-h2 {
-  font-size: 24px;
-  margin: 0.83em 0;
+  font-size: 42px;
+  margin-bottom: 24px;
 }
 
 p {
-  font-size: 16px;
+  font-size: 22px;
 }
 
 .summary {
-  margin-top: 25px;
-  margin-bottom: 44px;
-  font-size: 16px;
-  line-height: 20px;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.student-form {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  flex-wrap: wrap;
+h2 {
+  font-size: 34px;
+  margin-top: 38px;
   margin-bottom: 28px;
 }
 
-.student-form input {
+form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+input {
   width: 250px;
-  height: 35px;
+  max-width: 100%;
+  padding: 10px;
   box-sizing: border-box;
-  padding: 4px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
+  border: 1px solid #92929c;
+  border-radius: 6px;
+}
+
+.search-input {
+  width: 350px;
+  margin-bottom: 20px;
 }
 
 button {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  padding: 5px 12px;
+  padding: 10px 16px;
+  font-size: 18px;
+  background: #e9e9ed;
+  color: #000;
+  border: 1px solid #92929c;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.student-form button {
-  height: 35px;
-}
-
-.search {
-  width: 250px;
-  height: 35px;
-  box-sizing: border-box;
-  padding: 4px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  margin-bottom: 5px;
+button:hover {
+  background: #d9d9e0;
 }
 
 table {
-  border-collapse: separate;
-  border-spacing: 2px;
-  font-size: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 22px;
   text-align: left;
 }
 
 th,
 td {
-  padding: 3px;
-  white-space: nowrap;
+  padding: 12px 10px;
+  vertical-align: middle;
 }
 
 th {
-  font-size: 18px;
+  font-size: 25px;
 }
 
-td button {
-  padding: 4px 10px;
+.actions {
+  white-space: nowrap;
 }
 
-@media (max-width: 650px) {
-  .student-form input {
-    width: 42%;
+.delete-button {
+  margin-right: 8px;
+}
+
+.edit-button {
+  min-width: 105px;
+}
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 32px;
   }
 
-  .search {
-    max-width: 100%;
+  h2 {
+    font-size: 28px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  form input,
+  .search-input {
+    width: 100%;
   }
 
   table {
+    font-size: 15px;
+  }
+
+  th,
+  td {
+    padding: 8px 4px;
+  }
+
+  th {
+    font-size: 16px;
+  }
+
+  .actions {
+    white-space: normal;
+  }
+
+  .actions button {
+    display: block;
+    margin: 4px 0;
     font-size: 14px;
+    padding: 6px;
   }
 }
