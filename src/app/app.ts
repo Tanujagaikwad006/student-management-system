@@ -18,8 +18,9 @@ export class App {
   studentName = '';
   studentMarks: number | null = null;
   searchText = '';
-
   editingId: number | null = null;
+
+  sortOrder: 'none' | 'ascending' | 'descending' = 'none';
 
   students: Student[] = [
     { id: 1, name: 'Rahul', marks: 78 },
@@ -49,7 +50,7 @@ export class App {
   }
 
   get filteredStudents(): Student[] {
-    const search = this.searchText.trim().toLowerCase();
+    const search = this.searchText.toLowerCase().trim();
 
     return this.students.filter(student =>
       student.name.toLowerCase().includes(search)
@@ -76,26 +77,24 @@ export class App {
     const marks = this.studentMarks;
 
     if (!name) {
-      alert('Please enter student name.');
+      alert('Please enter the student name.');
       return;
     }
 
-    if (
-      marks === null ||
-      !Number.isFinite(marks) ||
-      marks < 0 ||
-      marks > 100
-    ) {
+    if (marks === null || marks < 0 || marks > 100) {
       alert('Please enter marks between 0 and 100.');
       return;
     }
 
     if (this.editingId !== null) {
-      this.students = this.students.map(student =>
-        student.id === this.editingId
-          ? { ...student, name, marks }
-          : student
+      const student = this.students.find(
+        item => item.id === this.editingId
       );
+
+      if (student) {
+        student.name = name;
+        student.marks = marks;
+      }
 
       this.cancelEdit();
       return;
@@ -107,20 +106,13 @@ export class App {
       marks
     });
 
-    this.studentName = '';
-    this.studentMarks = null;
+    this.clearForm();
   }
 
   editStudent(student: Student): void {
-    this.editingId = student.id;
     this.studentName = student.name;
     this.studentMarks = student.marks;
-  }
-
-  cancelEdit(): void {
-    this.editingId = null;
-    this.studentName = '';
-    this.studentMarks = null;
+    this.editingId = student.id;
   }
 
   deleteStudent(id: number): void {
@@ -130,6 +122,29 @@ export class App {
 
     if (this.editingId === id) {
       this.cancelEdit();
+    }
+  }
+
+  clearForm(): void {
+    this.studentName = '';
+    this.studentMarks = null;
+  }
+
+  cancelEdit(): void {
+    this.editingId = null;
+    this.clearForm();
+  }
+
+  sortByMarks(): void {
+    if (
+      this.sortOrder === 'none' ||
+      this.sortOrder === 'descending'
+    ) {
+      this.students.sort((a, b) => a.marks - b.marks);
+      this.sortOrder = 'ascending';
+    } else {
+      this.students.sort((a, b) => b.marks - a.marks);
+      this.sortOrder = 'descending';
     }
   }
 }
